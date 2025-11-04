@@ -150,7 +150,7 @@ export const DocumentList: React.FC<DocumentListProps> = ({
                     : "border border-transparent"
                 } ${
                   isSelected
-                    ? "bg-blue-500/10 dark:bg-blue-500/10"
+                    ? "bg-primary/10 dark:bg-primary/10"
                     : "bg-transparent hover:bg-black/5 dark:hover:bg-white/5"
                 }`}
                 style={{

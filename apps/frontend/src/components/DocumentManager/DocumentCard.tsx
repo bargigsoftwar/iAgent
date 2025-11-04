@@ -99,8 +99,8 @@ export const DocumentCard: React.FC<DocumentCardProps> = ({
       className={`h-full flex flex-col cursor-pointer rounded-xl transition-all duration-200 ease-in-out ${
         isSelected
           ? isDarkMode
-            ? "bg-blue-500/10 border-2 border-blue-500 hover:bg-blue-500/15 hover:border-blue-500"
-            : "bg-blue-500/5 border-2 border-blue-500 hover:bg-blue-500/8 hover:border-blue-500"
+            ? "bg-primary/10 border-2 border-primary hover:bg-primary/15 hover:border-primary"
+            : "bg-primary/5 border-2 border-primary hover:bg-primary/8 hover:border-primary"
           : isDarkMode
           ? "bg-white/3 border border-white/10 hover:bg-white/5 hover:border-white/15 hover:shadow-lg hover:shadow-black/30"
           : "bg-black/2 border border-black/8 hover:bg-black/4 hover:border-black/12 hover:shadow-lg hover:shadow-black/8"

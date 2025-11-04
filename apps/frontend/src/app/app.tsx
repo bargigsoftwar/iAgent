@@ -784,6 +784,15 @@ const App = () => {
     }
   }, [currentConversationId]);
 
+  // Sync dark class on HTML element for Tailwind dark mode
+  useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   // Theme toggle now uses localStorage hook
   const toggleTheme = () => {
     setIsDarkMode(!isDarkMode);

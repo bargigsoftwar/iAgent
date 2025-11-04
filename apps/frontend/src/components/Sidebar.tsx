@@ -175,18 +175,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
     const sidebarContent = (
       <Box
         id="iagent-sidebar-content"
-        className="iagent-sidebar-container"
+        className={`iagent-sidebar-container flex flex-col overflow-hidden relative bg-background-light dark:bg-background-darker ${
+          !isDarkMode ? "border-r border-border-light dark:border-border-dark" : ""
+        }`}
         sx={{
           width: sidebarWidth,
           height: "100vh",
-          backgroundColor: isDarkMode ? "#171717" : "#f9fafb", // Clean, muted background
-          display: "flex",
-          flexDirection: "column",
-          borderInlineEnd: isDarkMode
-            ? "none"
-            : `1px solid ${theme.palette.divider}`,
-          overflow: "hidden",
-          position: "relative",
         }}
       >
         {/* Sidebar Header */}
@@ -202,19 +196,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           {isMobile && (
             <IconButton
               id="iagent-sidebar-close"
-              className="iagent-mobile-close-button no-rtl-transform"
+              className="iagent-mobile-close-button no-rtl-transform absolute right-2 top-2 text-text dark:text-text-darker rounded-md transition-all duration-150 hover:bg-background dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-lightest"
               onClick={onToggle}
               sx={{
                 position: "absolute",
                 insetInlineEnd: 8,
                 top: 8,
-                color: theme.palette.text.secondary,
-                borderRadius: "6px",
-                transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-                "&:hover": {
-                  backgroundColor: theme.palette.action.hover,
-                  color: theme.palette.text.primary,
-                },
               }}
             >
               <CloseIcon fontSize="small" />
@@ -224,26 +211,13 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           {/* New Chat Button */}
           <Button
             id="iagent-new-chat-button"
-            className="iagent-new-conversation-button"
+            className="iagent-new-conversation-button border-border-light dark:border-border-dark text-text-light dark:text-text-lightest bg-transparent py-2 px-3 rounded-lg text-sm font-medium normal-case transition-all duration-150 shadow-none hover:bg-background dark:hover:bg-background-dark hover:border-border-darker dark:hover:border-border-dark"
             onClick={onNewConversation}
             variant="outlined"
             fullWidth
             sx={{
-              borderColor: theme.palette.divider,
-              color: theme.palette.text.primary,
-              backgroundColor: "transparent",
               padding: "8px 12px",
-              borderRadius: "8px",
-              fontSize: "14px",
-              fontWeight: 500,
-              textTransform: "none",
-              transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
               boxShadow: "none",
-              "&:hover": {
-                backgroundColor: theme.palette.action.hover,
-                borderColor: theme.palette.text.secondary,
-                boxShadow: "none",
-              },
             }}
           >
             <AddIcon sx={{ fontSize: 16, marginInlineEnd: "8px" }} />
@@ -254,26 +228,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         {/* Conversations List */}
         <Box
           id="iagent-conversations-list"
-          className="iagent-sidebar-conversations"
-          sx={{
-            flex: 1,
-            overflow: "auto",
-            padding: "0 8px",
-            // Clean scrollbar
-            "&::-webkit-scrollbar": {
-              width: "4px",
-            },
-            "&::-webkit-scrollbar-track": {
-              backgroundColor: "transparent",
-            },
-            "&::-webkit-scrollbar-thumb": {
-              backgroundColor: theme.palette.divider,
-              borderRadius: "2px",
-              "&:hover": {
-                backgroundColor: theme.palette.text.secondary,
-              },
-            },
-          }}
+          className="iagent-sidebar-conversations flex-1 overflow-auto px-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-border-darker dark:[&::-webkit-scrollbar-thumb]:bg-border-dark [&::-webkit-scrollbar-thumb]:rounded-sm [&::-webkit-scrollbar-thumb:hover]:bg-border-darker dark:[&::-webkit-scrollbar-thumb:hover]:bg-border-dark"
         >
           {conversations.length === 0 ? (
             // Empty State
@@ -289,21 +244,15 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
               }}
             >
               <ChatIcon
+                className="text-text-darker dark:text-text-DEFAULT opacity-60"
                 sx={{
                   fontSize: 24,
                   marginBottom: "8px",
-                  color: theme.palette.text.secondary,
-                  opacity: 0.6,
                 }}
               />
               <Typography
                 variant="body2"
-                sx={{
-                  fontSize: "14px",
-                  color: theme.palette.text.secondary,
-                  opacity: 0.8,
-                  lineHeight: 1.4,
-                }}
+                className="text-sm text-text dark:text-text-darker opacity-80 leading-relaxed"
               >
                 {t("sidebar.emptyState")}
               </Typography>
@@ -330,21 +279,12 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                     // Edit Mode
                     <ClickAwayListener onClickAway={handleCancelEdit}>
                       <Box
-                        sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          width: "100%",
-                          padding: "8px 12px",
-                          borderRadius: "8px",
-                          backgroundColor: theme.palette.action.hover,
-                          gap: "8px",
-                        }}
+                        className="flex items-center w-full py-2 px-3 rounded-lg bg-background dark:bg-background-dark gap-2"
                       >
                         <ChatIcon
+                          className="text-base text-text dark:text-text-darker flex-shrink-0"
                           sx={{
                             fontSize: 16,
-                            color: theme.palette.text.secondary,
-                            flexShrink: 0,
                           }}
                         />
 
@@ -370,14 +310,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                         <IconButton
                           onClick={handleSaveEdit}
                           size="small"
-                          sx={{
-                            width: 24,
-                            height: 24,
-                            color: theme.palette.success.main,
-                            "&:hover": {
-                              backgroundColor: theme.palette.action.hover,
-                            },
-                          }}
+                          className="w-6 h-6 text-success dark:text-success-light hover:bg-background dark:hover:bg-background-dark"
                         >
                           <CheckIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -386,15 +319,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                         <IconButton
                           onClick={handleCancelEdit}
                           size="small"
-                          sx={{
-                            width: 24,
-                            height: 24,
-                            color: theme.palette.text.secondary,
-                            "&:hover": {
-                              backgroundColor: theme.palette.action.hover,
-                              color: theme.palette.error.main,
-                            },
-                          }}
+                          className="w-6 h-6 text-text dark:text-text-darker hover:bg-background dark:hover:bg-background-dark hover:text-error dark:hover:text-error-light"
                         >
                           <CancelIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -407,33 +332,23 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                         onSelectConversation(conversation.id);
                         if (isMobile) onToggle();
                       }}
+                      className={`rounded-lg py-2 px-3 min-h-0 transition-all duration-150 ${
+                        currentConversationId === conversation.id
+                          ? "bg-background dark:bg-background-dark"
+                          : "bg-transparent"
+                      } hover:bg-background dark:hover:bg-background-dark hover:[&_.action-btns]:opacity-100`}
                       sx={{
-                        borderRadius: "8px",
                         padding: "8px 12px",
                         minHeight: "auto",
-                        // Active state
-                        backgroundColor:
-                          currentConversationId === conversation.id
-                            ? theme.palette.action.selected
-                            : "transparent",
-                        transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-                        "&:hover": {
-                          backgroundColor:
-                            currentConversationId === conversation.id
-                              ? theme.palette.action.selected
-                              : theme.palette.action.hover,
-                          "& .action-btns": { opacity: 1 },
-                        },
                       }}
                     >
                       {/* Conversation Icon */}
                       {streamingConversationId === conversation.id ? (
                         <GeneratingIcon
+                          className="text-base mr-3 flex-shrink-0 text-primary dark:text-primary-light animate-pulse"
                           sx={{
                             fontSize: 16,
                             marginInlineEnd: "12px",
-                            color: theme.palette.primary.main,
-                            flexShrink: 0,
                             animation: "pulse 1.5s ease-in-out infinite",
                             "@keyframes pulse": {
                               "0%": {
@@ -453,16 +368,14 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                         />
                       ) : (
                         <ChatIcon
+                          className={`text-base mr-3 flex-shrink-0 transition-colors duration-150 ${
+                            currentConversationId === conversation.id
+                              ? "text-primary dark:text-primary-light"
+                              : "text-text dark:text-text-darker"
+                          }`}
                           sx={{
                             fontSize: 16,
                             marginInlineEnd: "12px",
-                            color:
-                              currentConversationId === conversation.id
-                                ? theme.palette.primary.main
-                                : theme.palette.text.secondary,
-                            flexShrink: 0,
-                            transition:
-                              "color 150ms cubic-bezier(0.4, 0, 0.2, 1)",
                           }}
                         />
                       )}
@@ -516,16 +429,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                             handleStartEdit(conversation);
                           }}
                           size="small"
-                          sx={{
-                            width: 24,
-                            height: 24,
-                            color: theme.palette.text.secondary,
-                            borderRadius: "4px",
-                            "&:hover": {
-                              backgroundColor: theme.palette.action.hover,
-                              color: theme.palette.primary.main,
-                            },
-                          }}
+                          className="w-6 h-6 text-text dark:text-text-darker rounded hover:bg-background dark:hover:bg-background-dark hover:text-primary dark:hover:text-primary-light"
                         >
                           <EditIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -537,16 +441,7 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                             onDeleteConversation(conversation.id);
                           }}
                           size="small"
-                          sx={{
-                            width: 24,
-                            height: 24,
-                            color: theme.palette.text.secondary,
-                            borderRadius: "4px",
-                            "&:hover": {
-                              backgroundColor: theme.palette.action.hover,
-                              color: theme.palette.error.main,
-                            },
-                          }}
+                          className="w-6 h-6 text-text-DEFAULT dark:text-text-darker rounded hover:bg-background-DEFAULT dark:hover:bg-background-dark hover:text-error dark:hover:text-error-light"
                         >
                           <DeleteIcon sx={{ fontSize: 14 }} />
                         </IconButton>
@@ -562,34 +457,17 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         {/* Sidebar Footer */}
         <Box
           id="iagent-sidebar-footer"
-          className="iagent-sidebar-footer-section"
-          sx={{
-            padding: "16px",
-            borderTop: `1px solid ${theme.palette.divider}`,
-            flexShrink: 0,
-          }}
+          className="iagent-sidebar-footer-section p-4 border-t border-border-light dark:border-border-dark flex-shrink-0"
         >
           {/* Theme Toggle Button */}
           <Button
             id="iagent-theme-toggle"
-            className="iagent-theme-switch-button"
+            className="iagent-theme-switch-button justify-start py-2 px-3 rounded-lg text-text dark:text-text-darker text-sm font-normal normal-case transition-all duration-300 hover:bg-background dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-lightest"
             onClick={onToggleTheme}
             variant="text"
             fullWidth
             sx={{
-              justifyContent: "flex-start",
               padding: "8px 12px",
-              borderRadius: "8px",
-              color: theme.palette.text.secondary,
-              fontSize: "14px",
-              fontWeight: 400,
-              textTransform: "none",
-              transition:
-                "background-color 300ms cubic-bezier(0.4, 0, 0.2, 1), color 300ms cubic-bezier(0.4, 0, 0.2, 1)",
-              "&:hover": {
-                backgroundColor: theme.palette.action.hover,
-                color: theme.palette.text.primary,
-              },
             }}
           >
             {isDarkMode ? (
@@ -663,47 +541,20 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         >
           {/* Mobile Sidebar Content with fixed header */}
           <Box
-            sx={{
-              width: "100%",
-              height: "100vh",
-              backgroundColor: isDarkMode ? "#171717" : "#f9fafb",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
+            className="w-full h-screen bg-background-light dark:bg-background-darker flex flex-col overflow-hidden"
           >
             {/* Mobile Header */}
             <Box
-              sx={{
-                padding: "16px",
-                flexShrink: 0,
-                position: "relative",
-                borderBottom: `1px solid ${theme.palette.divider}`,
-              }}
+              className="p-4 flex-shrink-0 relative border-b border-border-light dark:border-border-dark"
             >
               {/* Mobile close button - Fixed positioning */}
               <IconButton
                 onClick={onToggle}
+                className="absolute right-3 top-3 text-text dark:text-text-darker bg-background-lightest dark:bg-background-dark rounded-lg w-9 h-9 z-10 shadow-md transition-all duration-150 hover:bg-background dark:hover:bg-background-dark hover:text-text-light dark:hover:text-text-lightest hover:scale-105 active:scale-95"
                 sx={{
                   position: "absolute",
                   insetInlineEnd: 12,
                   top: 12,
-                  color: theme.palette.text.secondary,
-                  backgroundColor: theme.palette.background.paper,
-                  borderRadius: "8px",
-                  width: 36,
-                  height: 36,
-                  zIndex: 10,
-                  boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
-                  transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-                  "&:hover": {
-                    backgroundColor: theme.palette.action.hover,
-                    color: theme.palette.text.primary,
-                    transform: "scale(1.05)",
-                  },
-                  "&:active": {
-                    transform: "scale(0.95)",
-                  },
                 }}
               >
                 <CloseIcon fontSize="small" />
@@ -714,23 +565,11 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                 onClick={onNewConversation}
                 variant="outlined"
                 fullWidth
+                className="border-border-light dark:border-border-dark text-text-light dark:text-text-lightest bg-transparent py-2 px-3 rounded-lg text-sm font-medium normal-case transition-all duration-150 shadow-none mt-2 hover:bg-background dark:hover:bg-background-dark hover:border-border-darker dark:hover:border-border-dark"
                 sx={{
-                  borderColor: theme.palette.divider,
-                  color: theme.palette.text.primary,
-                  backgroundColor: "transparent",
                   padding: "8px 12px",
-                  borderRadius: "8px",
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  textTransform: "none",
-                  transition: "all 150ms cubic-bezier(0.4, 0, 0.2, 1)",
-                  boxShadow: "none",
                   marginTop: "8px",
-                  "&:hover": {
-                    backgroundColor: theme.palette.action.hover,
-                    borderColor: theme.palette.text.secondary,
-                    boxShadow: "none",
-                  },
+                  boxShadow: "none",
                 }}
               >
                 <AddIcon sx={{ fontSize: 16, marginInlineEnd: "8px" }} />
@@ -740,48 +579,22 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
 
             {/* Conversations List */}
             <Box
-              sx={{
-                flex: 1,
-                overflow: "auto",
-                padding: "8px",
-                "&::-webkit-scrollbar": {
-                  width: "4px",
-                },
-                "&::-webkit-scrollbar-track": {
-                  backgroundColor: "transparent",
-                },
-                "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: theme.palette.divider,
-                  borderRadius: "2px",
-                  "&:hover": {
-                    backgroundColor: theme.palette.text.secondary,
-                  },
-                },
-              }}
+              className="flex-1 overflow-auto p-2 [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-border-darker dark:[&::-webkit-scrollbar-thumb]:bg-border-dark [&::-webkit-scrollbar-thumb]:rounded-sm [&::-webkit-scrollbar-thumb:hover]:bg-border-darker dark:[&::-webkit-scrollbar-thumb:hover]:bg-border-dark"
             >
               {conversations.length === 0 ? (
                 <Box
-                  sx={{
-                    padding: "24px 16px",
-                    textAlign: "center",
-                  }}
+                  className="py-6 px-4 text-center"
                 >
                   <ChatIcon
+                    className="text-text-tertiary-light dark:text-text-tertiary-dark opacity-60 mb-2"
                     sx={{
                       fontSize: 24,
                       marginBottom: "8px",
-                      color: theme.palette.text.secondary,
-                      opacity: 0.6,
                     }}
                   />
                   <Typography
                     variant="body2"
-                    sx={{
-                      fontSize: "14px",
-                      color: theme.palette.text.secondary,
-                      opacity: 0.8,
-                      lineHeight: 1.4,
-                    }}
+                    className="text-sm text-text dark:text-text-darker opacity-80 leading-relaxed"
                   >
                     {t("sidebar.emptyState")}
                   </Typography>
@@ -799,31 +612,25 @@ export const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                           onSelectConversation(conversation.id);
                           onToggle(); // Close sidebar on mobile after selection
                         }}
+                        className={`rounded-lg p-3 min-h-0 ${
+                          currentConversationId === conversation.id
+                            ? "bg-background dark:bg-background-dark"
+                            : "bg-transparent"
+                        } hover:bg-background dark:hover:bg-background-dark`}
                         sx={{
-                          borderRadius: "8px",
                           padding: "12px",
                           minHeight: "auto",
-                          backgroundColor:
-                            currentConversationId === conversation.id
-                              ? theme.palette.action.selected
-                              : "transparent",
-                          "&:hover": {
-                            backgroundColor:
-                              currentConversationId === conversation.id
-                                ? theme.palette.action.selected
-                                : theme.palette.action.hover,
-                          },
                         }}
                       >
                         <ChatIcon
+                          className={`text-base mr-3 flex-shrink-0 ${
+                            currentConversationId === conversation.id
+                              ? "text-primary dark:text-primary-light"
+                              : "text-text dark:text-text-darker"
+                          }`}
                           sx={{
                             fontSize: 16,
                             marginInlineEnd: "12px",
-                            color:
-                              currentConversationId === conversation.id
-                                ? theme.palette.primary.main
-                                : theme.palette.text.secondary,
-                            flexShrink: 0,
                           }}
                         />
 
